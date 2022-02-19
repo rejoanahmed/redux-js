@@ -5,10 +5,11 @@ export interface postSlate {
   id: string;
   title: string;
   content: string;
+  image: string | undefined;
 }
 const initialState: postSlate[] = [
-  { id: "1", title: "post1", content: "body1" },
-  { id: "2", title: "post2", content: "body2" },
+  { id: "1", title: "post1", content: "body1", image: "image1" },
+  { id: "2", title: "post2", content: "body2", image: "image" },
 ];
 const postSlice = createSlice({
   name: "posts",

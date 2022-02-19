@@ -1,11 +1,37 @@
 import { nanoid } from "@reduxjs/toolkit";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { postAdded } from "./postsSlice";
 
 function AddPostForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const [selectedFile, setSelectedFile] = useState<Blob>();
+  const [preview, setPreview] = useState<string>();
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
+  };
 
   const dispatch = useDispatch();
 
@@ -17,9 +43,17 @@ function AddPostForm() {
   };
   const onSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    dispatch(postAdded({ title, content, id: nanoid() }));
+    dispatch(
+      postAdded({
+        title,
+        content,
+        id: nanoid(),
+        image: preview,
+      })
+    );
     setTitle("");
     setContent("");
+    setSelectedFile(undefined);
   };
 
   return (
@@ -54,6 +88,8 @@ function AddPostForm() {
             onChange={onContentChange}
             value={content}
           />
+          <input type="file" onChange={onSelectFile} />
+          {selectedFile && <img src={preview} alt="your image" />}
           <button type="button" onClick={onSubmit}>
             Save Post
           </button>

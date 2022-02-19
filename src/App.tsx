@@ -6,7 +6,7 @@ import PostsList from "./features/posts/PostsList";
 
 function App() {
   return (
-    <>
+    <div className="w-1/2 mx-auto">
       <Navbar />
       <Routes>
         <Route
@@ -27,7 +27,7 @@ function App() {
           }
         />
       </Routes>
-    </>
+    </div>
   );
 }
 
