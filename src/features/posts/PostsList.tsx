@@ -19,6 +19,8 @@ function PostsList() {
           <h1 className="text-indigo-300">{post.title}</h1>
           <p className="text-xs">{post.content.substring(0, 100)}</p>
           <img src={post.image} alt="fucking " />
+          <Link to={`/posts/${post.id}`}>View Post</Link>
+          <Link to={`/editPost/${post.id}`}>Edit Post</Link>
         </article>
       ))}
     </section>

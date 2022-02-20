@@ -1,4 +1,3 @@
-import { nanoid } from "@reduxjs/toolkit";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { postAdded } from "./postsSlice";
@@ -43,14 +42,7 @@ function AddPostForm() {
   };
   const onSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    dispatch(
-      postAdded({
-        title,
-        content,
-        id: nanoid(),
-        image: preview,
-      })
-    );
+    dispatch(postAdded(title, content, preview));
     setTitle("");
     setContent("");
     setSelectedFile(undefined);
@@ -89,7 +81,7 @@ function AddPostForm() {
             value={content}
           />
           <input type="file" onChange={onSelectFile} />
-          {selectedFile && <img src={preview} alt="your image" />}
+          {selectedFile && <img src={preview} alt="your" />}
           <button type="button" onClick={onSubmit}>
             Save Post
           </button>

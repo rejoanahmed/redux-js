@@ -2,7 +2,9 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./app/Navbar";
 import AddPostForm from "./features/posts/AddPostForm";
+import EditPostForm from "./features/posts/EditPostForm";
 import PostsList from "./features/posts/PostsList";
+import SinglePostPage from "./features/posts/SinglePostPage";
 
 function App() {
   return (
@@ -25,7 +27,9 @@ function App() {
               <PostsList />
             </>
           }
-        />
+        ></Route>
+        <Route path="/posts/:id" element={<SinglePostPage />} />
+        <Route path="/editPost/:id" element={<EditPostForm />} />
       </Routes>
     </div>
   );
