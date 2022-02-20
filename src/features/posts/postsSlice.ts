@@ -6,10 +6,11 @@ export interface postSlate {
   title: string;
   content: string;
   image: string | undefined;
+  user: string;
 }
 const initialState: postSlate[] = [
-  { id: "1", title: "post1", content: "body1", image: "image1" },
-  { id: "2", title: "post2", content: "body2", image: "image" },
+  { id: "1", title: "post1", content: "body1", image: "image1", user: "user1" },
+  { id: "2", title: "post2", content: "body2", image: "image", user: "user2" },
 ];
 const postSlice = createSlice({
   name: "posts",
@@ -20,13 +21,19 @@ const postSlice = createSlice({
         state.push(action.payload);
       },
 
-      prepare(title: string, content: string, image: string | undefined) {
+      prepare(
+        title: string,
+        content: string,
+        image: string | undefined,
+        userId: string
+      ) {
         return {
           payload: {
             id: nanoid(),
             title,
             content,
             image,
+            user: userId,
           },
         };
       },

@@ -41,6 +41,7 @@ function EditPostForm() {
           title,
           content,
           image: URL.createObjectURL(selectedFile!),
+          user: post!?.user,
         })
       );
       navigate(`/posts/${id}`);

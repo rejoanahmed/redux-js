@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 import { postAdded } from "./postsSlice";
 
 function AddPostForm() {
+  const dispatch = useDispatch();
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
+  const [author, setAuthor] = useState("");
   const [selectedFile, setSelectedFile] = useState<Blob>();
   const [preview, setPreview] = useState<string>();
+
+  const users = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -32,20 +37,30 @@ function AddPostForm() {
     setSelectedFile(e.target.files[0]);
   };
 
-  const dispatch = useDispatch();
-
-  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTitle(e.target.value);
-  };
-  const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+
+  const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setContent(e.target.value);
-  };
+
+  const onAuthorChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setAuthor(e.target.value);
+
+  const canSave = Boolean(title) && Boolean(content) && Boolean(author);
+
+  const usersOptions = users.map((user) => (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  ));
   const onSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    dispatch(postAdded(title, content, preview));
-    setTitle("");
-    setContent("");
-    setSelectedFile(undefined);
+    if (canSave) {
+      dispatch(postAdded(title, content, preview, author));
+      setTitle("");
+      setContent("");
+      setSelectedFile(undefined);
+    }
   };
 
   return (
@@ -68,6 +83,11 @@ function AddPostForm() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={onTitleChange}
           />
+          <label htmlFor="postAuthor">Author:</label>
+          <select id="postAuthor" value={author} onChange={onAuthorChange}>
+            <option value=""></option>
+            {usersOptions}
+          </select>
           <label
             htmlFor="content"
             className="block text-gray-700 text-sm font-bold mb-2"

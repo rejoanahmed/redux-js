@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import PostAuthor from "./PostAuthor";
 import { selectPosts } from "./postsSlice";
 
 function PostsList() {
@@ -16,6 +17,7 @@ function PostsList() {
           key={post.id}
           className="flex justify-center gap-4 items-center"
         >
+          <PostAuthor userId={post.user} />
           <h1 className="text-indigo-300">{post.title}</h1>
           <p className="text-xs">{post.content.substring(0, 100)}</p>
           <img src={post.image} alt="fucking " />

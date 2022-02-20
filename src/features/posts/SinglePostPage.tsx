@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../app/store";
+import PostAuthor from "./PostAuthor";
 
 const SinglePostPage = () => {
   let { id } = useParams();
@@ -22,6 +23,7 @@ const SinglePostPage = () => {
       <section>
         <article className="post">
           <h2>{post.title}</h2>
+          <PostAuthor userId={post.user} />
           <p className="post-content">{post.content}</p>
           <img src={post.image} alt="fucking" />
         </article>
