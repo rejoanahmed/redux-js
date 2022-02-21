@@ -28,6 +28,9 @@ function AddPostForm() {
   }, [selectedFile]);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
